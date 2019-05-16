@@ -1,4 +1,7 @@
 <html>
-    <p>Hi there!</p>
-    <p>It works!</p>
+{% for task in tasks %}
+    {{ task.title }}<br>
+    {{ task.description}}<br>
+    {{ task.deadline}}<br>
+{% endfor %}
 </html>
