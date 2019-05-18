@@ -1,7 +1,10 @@
-<html>
+{% extends 'todo_manager/base.html' %}
+
+{% block content %}
 {% for task in tasks %}
-    {{ task.title }}<br>
+    <h1><a href = "{% url 'task_detail' pk=task.pk %}">{{ task.title }}</a></h1>
     {{ task.description}}<br>
-    {{ task.deadline}}<br>
+    <b>{{ task.deadline}}<br></b>
+
 {% endfor %}
-</html>
+{% endblock %}
