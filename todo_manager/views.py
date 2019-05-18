@@ -18,6 +18,10 @@ def update(request, pk):
         form = TaskForm(instance=task)
     return render(request, 'todo_manager/update.html', {'form': form})
 
+def delete(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.delete()
+    return redirect('todo_list')
 
 def todo_list(request):
     tasks = Task.objects.all()
