@@ -26,7 +26,7 @@ def create(request):
         if form.is_valid():
             task = form.save(commit=False)
             task.save()
-            return redirect('post_detail', pk=task.pk)
+            return redirect('task_detail', pk=task.pk)
     else:
         form = TaskForm()
     return render(request, 'todo_manager/update.html', {'form': form})
