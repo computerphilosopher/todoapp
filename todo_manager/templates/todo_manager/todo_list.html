@@ -4,7 +4,7 @@
 {% for task in tasks %}
     <h1><a href = "{% url 'task_detail' pk=task.pk %}">{{ task.title }}</a></h1>
     {{ task.description}}<br>
-    <b>{{ task.deadline}}<br></b>
+    {{ task.deadline}}<br>
 
 {% endfor %}
 {% endblock %}

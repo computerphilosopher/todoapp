@@ -1,9 +1,9 @@
 """views.py """
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 from .models import Task
 from .forms import TaskForm
-from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
 
@@ -12,11 +12,25 @@ def update(request, pk):
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)
+            task.save()
             return redirect('task_detail', pk=task.pk)
     else:
         form = TaskForm(instance=task)
     return render(request, 'todo_manager/update.html', {'form': form})
+
+
+def create(request):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.save()
+            return redirect('post_detail', pk=task.pk)
+    else:
+        form = TaskForm()
+    return render(request, 'todo_manager/update.html', {'form': form})
+
 
 def delete(request, pk):
     task = get_object_or_404(Task, pk=pk)
@@ -25,7 +39,15 @@ def delete(request, pk):
 
 def todo_list(request):
     tasks = Task.objects.all()
-    return render(request, 'todo_manager/todo_list.html', {'tasks':tasks})
+    closed_task = 0
+    now = timezone.now()
+
+    for task in tasks:
+        if task.deadline < now:
+            closed_task += 1 
+
+    return render(request, 'todo_manager/todo_list.html', {'tasks':tasks, 'closed_task':closed_task})
+    #return render(request, 'todo_manager/todo_list.html', {'tasks':tasks})
 
 def task_detail(request, pk):
     task = get_object_or_404(Task, pk=pk)
