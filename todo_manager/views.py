@@ -3,19 +3,20 @@
 from django.shortcuts import render
 from .models import Task
 from .forms import TaskForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
 
-def update(request):
+def update(request, pk):
+    task = get_object_or_404(Task, pk=pk)
     if request.method == "POST":
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, instance=task)
         if form.is_valid():
-            task = form.save()
-            return todo_list(request)
+            form.save()
+            return redirect('task_detail', pk=task.pk)
     else:
-        form = TaskForm()
-    return render(request, 'todo_manager/update.html', {'form':form})
+        form = TaskForm(instance=task)
+    return render(request, 'todo_manager/update.html', {'form': form})
 
 
 def todo_list(request):
