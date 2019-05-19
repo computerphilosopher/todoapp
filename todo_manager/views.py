@@ -7,6 +7,17 @@ from .forms import TaskForm
 
 # Create your views here.
 
+def count_closed_task():
+
+    tasks = Task.objects.all()
+    closed_task = 0
+    now = timezone.localtime()
+
+    for task in tasks:
+        if task.deadline and task.deadline < now:
+            closed_task += 1 
+    return closed_task
+
 def update(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == "POST":
@@ -14,10 +25,11 @@ def update(request, pk):
         if form.is_valid():
             task = form.save(commit=False)
             task.save()
-            return redirect('task_detail', pk=task.pk)
+            #return redirect('task_detail', pk=task.pk)
+            return redirect('todo_list')
     else:
         form = TaskForm(instance=task)
-    return render(request, 'todo_manager/update.html', {'form': form})
+    return render(request, 'todo_manager/update.html', {'form': form, 'closed_task':count_closed_task()})
 
 
 def create(request):
@@ -26,10 +38,11 @@ def create(request):
         if form.is_valid():
             task = form.save(commit=False)
             task.save()
-            return redirect('task_detail', pk=task.pk)
+            #return redirect('task_detail', pk=task.pk)
+            return redirect('todo_list')
     else:
         form = TaskForm()
-    return render(request, 'todo_manager/update.html', {'form': form})
+    return render(request, 'todo_manager/update.html', {'form': form, 'closed_task':count_closed_task()})
 
 
 def delete(request, pk):
@@ -39,15 +52,7 @@ def delete(request, pk):
 
 def todo_list(request):
     tasks = Task.objects.all()
-
-    closed_task = 0
-    now = timezone.localtime()
-
-    for task in tasks:
-        if task.deadline and task.deadline < now:
-            closed_task += 1 
-
-    return render(request, 'todo_manager/todo_list.html', {'tasks':tasks, 'closed_task':closed_task})
+    return render(request, 'todo_manager/todo_list.html', {'tasks':tasks, 'closed_task':count_closed_task()})
 
 def task_detail(request, pk):
     task = get_object_or_404(Task, pk=pk)
