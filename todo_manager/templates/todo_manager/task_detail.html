@@ -6,6 +6,8 @@
     <a class="btn btn-default" href="{% url 'delete' pk=task.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
         <h1>{{ task.title }}</h1>
         <p>{{task.description|linebreaksbr }}</p>
+        {% if task.deadline %}
         <p>{{task.deadline|linebreaksbr }}</p>
+        {% endif %}
     </div>
 {% endblock %}

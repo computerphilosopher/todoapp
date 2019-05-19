@@ -35,20 +35,30 @@ def create(request):
 def delete(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.delete()
-    return redirect('todo_list')
+    return redirect('todo_manager/todo_list')
 
 def todo_list(request):
     tasks = Task.objects.all()
+
     closed_task = 0
     now = timezone.now()
 
     for task in tasks:
-        if task.deadline < now:
+        if task.deadline and task.deadline < now:
             closed_task += 1 
 
     return render(request, 'todo_manager/todo_list.html', {'tasks':tasks, 'closed_task':closed_task})
-    #return render(request, 'todo_manager/todo_list.html', {'tasks':tasks})
 
 def task_detail(request, pk):
     task = get_object_or_404(Task, pk=pk)
     return render(request, 'todo_manager/task_detail.html', {'task':task})
+
+
+def toggle_finished(request, pk):
+
+    task = get_object_or_404(Task, pk=pk)
+
+    if task:
+        task.finished = not task.finished
+    
+    return redirect('todo_manager/todo_list/' + str(pk))

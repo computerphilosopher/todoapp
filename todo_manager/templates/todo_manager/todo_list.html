@@ -2,9 +2,17 @@
 
 {% block content %}
 {% for task in tasks %}
-    <h1><a href = "{% url 'task_detail' pk=task.pk %}">{{ task.title }}</a></h1>
+    <h1><a href = "{% url 'task_detail' pk=task.pk %}">{{task.title }}</a> </h1>
+    {{task.pk}}
+    {% if task.finished %} 
+        <a href="{% url 'toggle_finished' pk=task.pk %}" class="top-menu"><span class="glyphicon glyphicon-check"></span></a>
+    {% else %}
+        <a href="{% url 'toggle_finished' pk=task.pk %}" class="top-menu"><span class="glyphicon glyphicon-unchecked"></span></a>
+
     {{ task.description}}<br>
     {{ task.deadline}}<br>
+    {% endif %}
+
 
 {% endfor %}
 {% endblock %}
