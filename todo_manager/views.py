@@ -41,7 +41,7 @@ def todo_list(request):
     tasks = Task.objects.all()
 
     closed_task = 0
-    now = timezone.now()
+    now = timezone.localtime()
 
     for task in tasks:
         if task.deadline and task.deadline < now:

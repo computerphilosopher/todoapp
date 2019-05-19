@@ -9,5 +9,4 @@ class Task(models.Model):
 
     priority_error = "우선순위는 1부터 5까지만 지정할 수 있습니다."
     priority = models.IntegerField(default=5, validators=[MaxValueValidator(5, priority_error), MinValueValidator(1, priority_error)])
-
     finished = models.BooleanField(default=False)

@@ -3,16 +3,16 @@
 {% block content %}
 {% for task in tasks %}
     <h1><a href = "{% url 'task_detail' pk=task.pk %}">{{task.title }}</a> </h1>
-    {{task.pk}}
     {% if task.finished %} 
-        <a href="{% url 'toggle_finished' pk=task.pk %}" class="top-menu"><span class="glyphicon glyphicon-check"></span></a>
+        <a href="{% url 'toggle_finished' pk=task.pk %}" class="top-menu"><span class="glyphicon glyphicon-check"> </span></a> completed
     {% else %}
-        <a href="{% url 'toggle_finished' pk=task.pk %}" class="top-menu"><span class="glyphicon glyphicon-unchecked"></span></a>
-
-    {{ task.description}}<br>
-    {{ task.deadline}}<br>
+        <a href="{% url 'toggle_finished' pk=task.pk %}" class="top-menu"><span class="glyphicon glyphicon-unchecked"> </span></a>  not completed
     {% endif %}
-
+    <a class="btn btn-default" href="{% url 'update' pk=task.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-default" href="{% url 'delete' pk=task.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+    <br><br>
+    {{ task.description}}<br><br>
+    deadline : {{ task.deadline}}<br>
 
 {% endfor %}
 {% endblock %}
