@@ -35,7 +35,7 @@ def create(request):
 def delete(request, pk):
     task = get_object_or_404(Task, pk=pk)
     task.delete()
-    return redirect('todo_manager/todo_list')
+    return redirect('todo_list')
 
 def todo_list(request):
     tasks = Task.objects.all()
@@ -60,5 +60,6 @@ def toggle_finished(request, pk):
 
     if task:
         task.finished = not task.finished
+        task.save()
     
-    return redirect('todo_manager/todo_list/' + str(pk))
+    return redirect('..')
