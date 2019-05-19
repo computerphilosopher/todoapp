@@ -2,7 +2,7 @@
 
 {% block content %}
 {% for task in tasks %}
-    <h1>{{task.title }}</h1>
+    <h1>{{task.title}}</h1>
     {% if task.finished %} 
         <a href="{% url 'toggle_finished' pk=task.pk %}" class="top-menu"><span class="glyphicon glyphicon-check"> </span></a> completed
     {% else %}
@@ -10,7 +10,12 @@
     {% endif %}
     <br><br>
     {{ task.description}}<br><br>
-    deadline : {{ task.deadline}}<br>
+    {% if task.deadline%}
+        deadline : {{ task.deadline}}<br>
+    {% endif %}
+    {% if task.deadline < 5 %}
+        priority: {{task.priority}} <br>
+    {% endif %}
     <a class="btn btn-default" href="{% url 'update' pk=task.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
     <a class="btn btn-default" href="{% url 'delete' pk=task.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
 
