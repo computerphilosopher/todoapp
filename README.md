@@ -2,7 +2,7 @@
 
 ## 개요
 
-![capture]([./readme_image/capture.JPG])
+![capture](./readme_image/capture.jpeg)
 
 TODO 리스트의 조회, 수정, 삭제가 가능한 프로젝트입니다. 
 
