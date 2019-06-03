@@ -25,7 +25,6 @@ def update(request, pk):
         if form.is_valid():
             task = form.save(commit=False)
             task.save()
-            #return redirect('task_detail', pk=task.pk)
             return redirect('todo_list')
     else:
         form = TaskForm(instance=task)
